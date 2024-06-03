@@ -1,5 +1,5 @@
-title: A DecisionTreeClassifier for Recipe Ratings
-description: a collaborative effort with Wan-Rong (Emma) Leung and Camille Sicat
+title: [A DecisionTreeClassifier for Recipe Ratings]
+description: [a collaborative effort with Wan-Rong (Emma) Leung and Camille Sicat]
 
 remote_theme: pages-themes/cayman@v0.2.0
 plugins:
