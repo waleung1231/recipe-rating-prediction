@@ -22,8 +22,12 @@ The recipes dataset contains 234429 rows and the columns 'name', 'id', 'minutes'
 
 
 ### Data Cleaning and Exploratory Data Analysis
+We started off with spliting all the values in nuitrition into new seperate columns (calories, total fat, sugar, sodium, protien, saturated fat, carbohydrate). By splitting them into seperate columns we were able to see if different segmants of nuitrition may have affects to the ratings. E.g. if higher calories food can lead to higher ratings. 
+
+Import the data here 
 
 ### Assessment of Missingness
+
 
 ### Hypothesis Testing
 
