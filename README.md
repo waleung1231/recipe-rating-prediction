@@ -63,7 +63,9 @@ We checked if recipes with a higher number of ingredients have the same average_
 **Null hypothesis**: The distribution of average ratings for recipes with a high number of ingredients is the same as the distribution of average ratings for recipes with a low number of ingredients.
 **Alternate hypothesis**: The distribution of average ratings for recipes with a high number of ingredients is different from the distribution of average ratings for recipes with a low number of ingredients.
 
-For our test statistic we used the K-S statistic with a p-value cutoff of 0.05.
+For our test statistic we used the K-S statistic with a p-value cutoff of 0.05. 
+
+Our test gave us a K-S statistic of 0.181 and a p-value of 1.47e-16. Based on these results, we reject our null hypothesis that the distribution of ratings for recipes with a high number of ingredients is the same as the distribution of ratings for recipes with a lower number of ingredients. This means 'n_ingredients' is significant for determining a recipe's rating, a fact we will use in our model. 
 
 ### Framing a Prediction Problem
 
