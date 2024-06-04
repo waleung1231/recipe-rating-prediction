@@ -56,6 +56,14 @@ Finally, we ran a permutation test to see if 'average_rating' was MAR conditione
 Since 'average_rating' is MAR conditioned on 'n_steps' and 'n_ingredients', and 'average_rating' is based on 'rating', there is a high chance 'rating' is heavily related to 'n_steps' and 'n_ingredients'. We will use this information in our model. 
 
 ### Hypothesis Testing
+For our hypothesis test, we wanted to answer the question: Do recipes with a higher number of ingredients have higher average ratings? 
+
+We checked if recipes with a higher number of ingredients have the same average_ratings as recipes with a lower number of ingredients.
+
+**Null hypothesis**: The distribution of average ratings for recipes with a high number of ingredients is the same as the distribution of average ratings for recipes with a low number of ingredients.
+**Alternate hypothesis**: The distribution of average ratings for recipes with a high number of ingredients is different from the distribution of average ratings for recipes with a low number of ingredients.
+
+For our test statistic we used the K-S statistic with a p-value cutoff of 0.05.
 
 ### Framing a Prediction Problem
 
