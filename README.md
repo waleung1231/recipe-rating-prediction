@@ -68,8 +68,16 @@ For our test statistic we used the K-S statistic with a p-value cutoff of 0.05.
 Our test gave us a K-S statistic of 0.181 and a p-value of 1.47e-16. Based on these results, we reject our null hypothesis that the distribution of ratings for recipes with a high number of ingredients is the same as the distribution of ratings for recipes with a lower number of ingredients. This means 'n_ingredients' is significant for determining a recipe's rating, a fact we will use in our model. 
 
 ### Framing a Prediction Problem
+For our prediction problem, we want to predict the rating of a recipe using a classification model. We have established that ratings (and thus average ratings) are heavily correlated with the numerical columns, such as n_ingredients and n_steps, meaning a relationship can be determined. Our classifier will be a multiclass classification model taking in these correlated rows such as n_ingredients and n_steps to predict whether a recipe is 1, 2, 3, 4, or 5 stars. We will evaluate the effectiveness of our model using accuracy because it tells us whether or not the model was successful at predicting the correct category. We chose accuracy over the F-1 score because it is easier to interpet in the context of our question - that is, if a recipe has been classified as having a correct rating. 
+
+At the time of classification, we can assume the n_ingredients and n_steps would be known, so it is okay to use these as variables. 
 
 ### Baseline Model
+For our baseline model we will use a DecisionTreeClassifier to classify our recipes data as having a rating of 1, 2, 3, 4, or 5 stars. In this baseline model, we are using the 2 quantative columns, n_steps and n_ingreidents, to predict whether what rating a recipe will receive. To prevent outliers from skewing the data, we decided to standardize these columns with StandardScaler(). 
+
+Our train/test split was the default 75%/25%. On training data across all 5 categories our model had an mean accuracy of ~77.4%. On testing data, across all 5 categories it had a mean accuracy of ~77.1%. 
+
+We also tried a RandomForestClassifier, but the results were roughly the same as the DecisionTreeClassifier, so we used the DecisionTreeClassifier as our final baseline model. Because the training/testing accuracy scores of our DecisionTreeClassifier model are very similar, we believe we didn't overfit the data. Therefore, the high accuracy means our baseline model is good. That being said, we believe it can be improved by testing categorical columns and seeing if they improve our model's accuracy. 
 
 ### Final Model
 
