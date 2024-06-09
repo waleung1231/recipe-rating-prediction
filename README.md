@@ -9,7 +9,7 @@ The recipes dataset contains 234429 rows and the columns 'name', 'id', 'minutes'
 | minutes | how many minutes the recipe takes |
 | contributor_id | the id of the person who submitted the recipe|
 | tags | the hashtags the recipe was given |
-| nutrition | a list of nuitrition data (calories, total fat, sugar, sodium, protien, saturated fat, carbohydrate) |
+| nutrition | a list of nuitrition data (calories, total fat, sugar, sodium, protein, saturated fat, carbohydrate) |
 | n_steps | the number of steps theis recipe has |
 | steps | text description of each step |
 | description | a paragraph description of the recipe |
