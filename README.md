@@ -68,17 +68,33 @@ For our test statistic we used the K-S statistic with a p-value cutoff of 0.05.
 Our test gave us a K-S statistic of 0.181 and a p-value of 1.47e-16. Based on these results, we reject our null hypothesis that the distribution of ratings for recipes with a high number of ingredients is the same as the distribution of ratings for recipes with a lower number of ingredients. This means 'n_ingredients' is significant for determining a recipe's rating, a fact we will use in our model. 
 
 ### Framing a Prediction Problem
-For our prediction problem, we want to predict the rating of a recipe using a classification model. We have established that ratings (and thus average ratings) are heavily correlated with the numerical columns, such as n_ingredients and n_steps, meaning a relationship can be determined. Our classifier will be a multiclass classification model taking in these correlated rows such as n_ingredients and n_steps to predict whether a recipe is 1, 2, 3, 4, or 5 stars. We will evaluate the effectiveness of our model using accuracy because it tells us whether or not the model was successful at predicting the correct category. We chose accuracy over the F-1 score because it is easier to interpet in the context of our question - that is, if a recipe has been classified as having a correct rating. 
+For our prediction problem, we want to predict the rating of a recipe using a classification model. Both 'rating' (and 'average_rating') are heavily correlated with the numerical columns 'n_ingredients' and 'n_steps', meaning a relationship can be determined. Our classifier will be a multiclass classification model taking in these rows such as n_ingredients and n_steps to predict whether a recipe is 1, 2, 3, 4, or 5 stars. We will evaluate the effectiveness of our model using accuracy because it tells us whether or not the model was successful at predicting the correct category. We chose accuracy over the F-1 score because it is easier to interpet in the context of our question - that is, if a recipe has been classified as having a correct rating. 
 
-At the time of classification, we can assume the n_ingredients and n_steps would be known, so it is okay to use these as variables. 
+At the time of classification, we can assume 'n_ingredients' and 'n_steps' would be known, so it is okay to use these as variables. 
 
 ### Baseline Model
-For our baseline model we will use a DecisionTreeClassifier to classify our recipes data as having a rating of 1, 2, 3, 4, or 5 stars. In this baseline model, we are using the 2 quantative columns, n_steps and n_ingreidents, to predict whether what rating a recipe will receive. To prevent outliers from skewing the data, we decided to standardize these columns with StandardScaler(). 
+For our baseline model we will use a DecisionTreeClassifier to classify our recipes data as having a rating of 1, 2, 3, 4, or 5 stars. In this baseline model, we are using the 2 quantative columns, 'n_steps' and 'n_ingriedients', to predict whether what rating a recipe will receive. To prevent outliers from skewing the data, we decided to standardize these columns with StandardScaler(). 
 
 Our train/test split was the default 75%/25%. On training data across all 5 categories our model had an mean accuracy of ~77.4%. On testing data, across all 5 categories it had a mean accuracy of ~77.1%. 
 
 We also tried a RandomForestClassifier, but the results were roughly the same as the DecisionTreeClassifier, so we used the DecisionTreeClassifier as our final baseline model. Because the training/testing accuracy scores of our DecisionTreeClassifier model are very similar, we believe we didn't overfit the data. Therefore, the high accuracy means our baseline model is good. That being said, we believe it can be improved by testing categorical columns and seeing if they improve our model's accuracy. 
 
 ### Final Model
+To improve our model accuracy, we decided to introduce new variables. First, we engineered 2 new features: 'baking' and 'top three tags'. For 'baking', we thought that whether or not a recipe needed the extra prep time (as indicated by an oven) was an indicator of rating. For 'top three tags', the top 3 tags used on our recipes data were '60-minutes-or-less', '30-minutes-or-less', and '15-minutes-or-less'. If a recipe has popular tags, it means it was viewed by more people, meaning in our eyes it was more likely to have more ratings and thus more data to correlate. Then, we decided to use 'calories (#)', because oftentimes people will consider recipe quality through how many calories it introduces in the meal. We also decided not to scale 'n_steps' and 'n_ingredients' out of fear that scaling them last time reduced the quality of analysis.
+
+For 'baking', we examined the nominal column 'steps', which have no inherent order as they are lists of strings. We assumed if the 'steps' column contained the word 'preheat' then the recipe involved an oven and thus 'baking'. We encoded this value using 1 to indicate 'baking' and 0 to indicate otherwise.
+
+For 'tags', the top 3 tags '60-minutes-or-less', '30-minutes-or-less', and '15-minutes-or-less' have an inherent ordering, making this feature ordinal. To encode whether or not a reicpe fell into one of these three categories, we made a 2-dimensional matrix with each column representing a tag, with a 4th column for 'none of the above'. A 0 in one column meant the recipe did not fall under this category, and a 1 meant the recipe fell under the category. Note that we dropped the 'none of the above' column in our model analysis and tuning to avoid multicollinearity. 
+
+'calories (#)' is a continuous quantiative column. For our model, we examined health data and determined that a recipe is considered high calorie if it contains over 600 calories, and low calorie otherwise. In the preprocessing step we used a Binarizer to encode this data. 
+
+As stated earlier, we left 'n_steps' and 'n_ingredients' alone as they were numerical columns whose values were significant on their own to the problem at hand. 
+
+To start the hyperparameter tuning process, we preprocessed the data to encode our given features. To better avoid overfitting given the increased complexity of our model, we decided to use a RandomForestClassifier with a 75%/25% train/test split. Our hyperparameters were 'max_depth' with values \[2,3,7\], 'min_samples_split' with values \[2, 5, 10\], and 'criterion' of \['gini', 'entropy'\]. We used GridSearchCV with five-fold cross-validation to determine that our best paramters were a criterion of 'gini', a 'max_depth' of 7, and a 'min_samples_split' of 10. 
+
+Using these hyperparameters, we created a RandomForestClassifier. On training data the model had a mean accuracy across all 5 categories of ~98.3%. On testing data it had a mean accuracy across all 5 categories of ~98.2%. Based on these dramatic improvement in accuracy across all 5 categories, we can see this RandomForestClassifier's performance is superior to our previous DecisionTreeClassifier. (To illustrate, see the confusion matrix below.)
+[Insert confusion matrix here]
+
+While we did use a RandomForestClassifier to avoid overfitting, it is posssible that it overfit to the training/test set. However, that cannot be tested without using more data. 
 
 ### Fairness Analysis
